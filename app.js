@@ -59,34 +59,159 @@ class StudentDataSystem {
     }
 
     init() {
-        // Ensure all modals are hidden initially
-        this.closeAllModals();
-        this.setupEventListeners();
+        console.log('Initializing Student Data System...');
+        
+        // Critical fix: Force hide all modals first
+        this.forceHideAllModals();
         this.determineView();
+        this.setupEventListeners();
+        
+        console.log('Current view:', this.currentView);
+        console.log('Schools:', this.schools.length);
+        console.log('Students:', this.students.length);
+    }
+
+    forceHideAllModals() {
+        // Critical fix: Forcefully hide all modals on initialization
+        const allModals = document.querySelectorAll('.modal');
+        allModals.forEach(modal => {
+            modal.classList.add('hidden');
+            modal.style.display = 'none';
+        });
+        
+        // Reset any modal state variables
+        this.deleteSchoolId = null;
+    }
+
+    determineView() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const schoolParam = urlParams.get('school');
+
+        console.log('URL school parameter:', schoolParam);
+
+        if (schoolParam) {
+            // School form view - CLEAN interface with NO admin functions
+            this.currentSchoolId = schoolParam;
+            const school = this.schools.find(s => s.registrationLink === schoolParam);
+            
+            console.log('Found school:', school);
+            
+            if (school) {
+                this.showSchoolForm(school);
+            } else {
+                console.error('School not found for link:', schoolParam);
+                this.showError('Invalid school link');
+            }
+        } else {
+            // Admin dashboard view
+            this.showAdminDashboard();
+        }
+    }
+
+    showAdminDashboard() {
+        console.log('Showing admin dashboard');
+        this.currentView = 'admin';
+        
+        const adminDashboard = document.getElementById('adminDashboard');
+        const schoolForm = document.getElementById('schoolForm');
+        
+        if (adminDashboard) adminDashboard.classList.remove('hidden');
+        if (schoolForm) schoolForm.classList.add('hidden');
+        
+        // Ensure modals remain hidden
+        this.forceHideAllModals();
+        
+        this.renderSchoolsList();
         this.updateStats();
     }
 
+    showSchoolForm(school) {
+        console.log('Showing school form for:', school.name);
+        this.currentView = 'school';
+        
+        const adminDashboard = document.getElementById('adminDashboard');
+        const schoolForm = document.getElementById('schoolForm');
+        
+        if (adminDashboard) adminDashboard.classList.add('hidden');
+        if (schoolForm) schoolForm.classList.remove('hidden');
+        
+        // Critical fix: Completely remove admin modals from school view
+        this.hideAdminModalsInSchoolView();
+        
+        const formTitle = document.getElementById('schoolFormTitle');
+        if (formTitle) {
+            formTitle.textContent = `${school.name} - Student Registration`;
+        }
+
+        this.setNextSerialNumber();
+    }
+
+    hideAdminModalsInSchoolView() {
+        // Critical fix: Hide admin modals from school view
+        const adminModals = ['schoolLinkModal', 'deleteModal'];
+        adminModals.forEach(modalId => {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                modal.classList.add('hidden');
+            }
+        });
+    }
+
     setupEventListeners() {
+        console.log('Setting up event listeners for view:', this.currentView);
+        
+        // Setup school form event listeners (always available)
+        this.setupSchoolFormEventListeners();
+        
+        // Only setup admin event listeners if in admin view
+        if (this.currentView === 'admin') {
+            this.setupAdminEventListeners();
+        }
+    }
+
+    setupAdminEventListeners() {
+        console.log('Setting up admin event listeners');
+        
         // Admin Dashboard Events
         const addSchoolForm = document.getElementById('addSchoolForm');
         if (addSchoolForm) {
-            addSchoolForm.addEventListener('submit', (e) => this.handleAddSchool(e));
+            addSchoolForm.addEventListener('submit', (e) => {
+                console.log('Add school form submitted');
+                this.handleAddSchool(e);
+            });
         }
 
         const downloadBtn = document.getElementById('downloadDataBtn');
         if (downloadBtn) {
-            downloadBtn.addEventListener('click', () => this.downloadData());
+            downloadBtn.addEventListener('click', () => {
+                console.log('Download data clicked');
+                this.downloadData();
+            });
         }
 
+        // Modal Events - ONLY for admin view
+        this.setupAdminModalEvents();
+    }
+
+    setupSchoolFormEventListeners() {
+        console.log('Setting up school form event listeners');
+        
         // Student Form Events
         const studentForm = document.getElementById('studentForm');
         if (studentForm) {
-            studentForm.addEventListener('submit', (e) => this.handleStudentSubmit(e));
+            studentForm.addEventListener('submit', (e) => {
+                console.log('Student form submitted');
+                this.handleStudentSubmit(e);
+            });
         }
 
         const resetFormBtn = document.getElementById('resetFormBtn');
         if (resetFormBtn) {
-            resetFormBtn.addEventListener('click', () => this.resetStudentForm());
+            resetFormBtn.addEventListener('click', () => {
+                console.log('Reset form clicked');
+                this.resetStudentForm();
+            });
         }
 
         const photoInput = document.getElementById('photo');
@@ -99,9 +224,6 @@ class StudentDataSystem {
             removePhotoBtn.addEventListener('click', () => this.removePhoto());
         }
 
-        // Modal Events
-        this.setupModalEvents();
-
         // Mobile number validation
         const mobileInput = document.getElementById('mobileNo');
         if (mobileInput) {
@@ -109,101 +231,76 @@ class StudentDataSystem {
         }
     }
 
-    setupModalEvents() {
+    setupAdminModalEvents() {
+        // Critical fix: ONLY setup modal events in admin view
+        if (this.currentView !== 'admin') return;
+
+        console.log('Setting up admin modal events');
+
         // School Link Modal
         const closeModal = document.getElementById('closeModal');
         if (closeModal) {
-            closeModal.addEventListener('click', () => this.closeSchoolLinkModal());
+            closeModal.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeSchoolLinkModal();
+            });
         }
 
         const copyLinkBtn = document.getElementById('copyLinkBtn');
         if (copyLinkBtn) {
-            copyLinkBtn.addEventListener('click', () => this.copyLink());
+            copyLinkBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.copyLink();
+            });
         }
 
         // Delete Modal
         const closeDeleteModal = document.getElementById('closeDeleteModal');
         if (closeDeleteModal) {
-            closeDeleteModal.addEventListener('click', () => this.closeDeleteModal());
+            closeDeleteModal.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeDeleteModal();
+            });
         }
 
         const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
         if (confirmDeleteBtn) {
-            confirmDeleteBtn.addEventListener('click', () => this.confirmDelete());
+            confirmDeleteBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.confirmDelete();
+            });
         }
 
         const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
         if (cancelDeleteBtn) {
-            cancelDeleteBtn.addEventListener('click', () => this.closeDeleteModal());
+            cancelDeleteBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeDeleteModal();
+            });
         }
 
-        // Close modals on backdrop click
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    this.closeAllModals();
-                }
-            });
-        });
-
-        // ESC key to close modals
+        // ESC key to close modals - ONLY in admin view
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
+            if (e.key === 'Escape' && this.currentView === 'admin') {
+                e.preventDefault();
                 this.closeAllModals();
             }
         });
     }
 
-    determineView() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const schoolParam = urlParams.get('school');
-
-        if (schoolParam) {
-            // School form view
-            this.currentSchoolId = schoolParam;
-            const school = this.schools.find(s => s.registrationLink === schoolParam);
-            
-            if (school) {
-                this.showSchoolForm(school);
-            } else {
-                this.showError('Invalid school link');
-            }
-        } else {
-            // Admin dashboard view
-            this.showAdminDashboard();
-        }
-    }
-
-    showAdminDashboard() {
-        this.currentView = 'admin';
-        document.getElementById('adminDashboard').classList.remove('hidden');
-        document.getElementById('schoolForm').classList.add('hidden');
-        this.renderSchoolsList();
-        this.updateStats();
-    }
-
-    showSchoolForm(school) {
-        this.currentView = 'school';
-        document.getElementById('adminDashboard').classList.add('hidden');
-        document.getElementById('schoolForm').classList.remove('hidden');
-        
-        const formTitle = document.getElementById('schoolFormTitle');
-        if (formTitle) {
-            formTitle.textContent = `${school.name} - Student Registration`;
-        }
-
-        this.setNextSerialNumber();
-    }
-
     handleAddSchool(e) {
         e.preventDefault();
+        console.log('Handling add school...');
         
         const schoolNameInput = document.getElementById('schoolName');
         const schoolName = schoolNameInput.value.trim();
         
-        if (!schoolName) return;
+        if (!schoolName) {
+            alert('Please enter a school name');
+            return;
+        }
 
+        console.log('Adding school:', schoolName);
         this.showLoadingButton('addSchoolBtnText', 'addSchoolLoader');
 
         // Simulate API call
@@ -220,57 +317,112 @@ class StudentDataSystem {
             };
 
             this.schools.push(newSchool);
+            console.log('School added:', newSchool);
+            
             this.renderSchoolsList();
             this.updateStats();
             
             schoolNameInput.value = '';
             this.hideLoadingButton('addSchoolBtnText', 'addSchoolLoader');
             
-            // Show link modal
-            this.showSchoolLinkModal(registrationLink);
+            // Show link modal - ONLY in admin view
+            if (this.currentView === 'admin') {
+                this.showSchoolLinkModal(registrationLink);
+            }
         }, 1000);
     }
 
     showSchoolLinkModal(registrationLink) {
+        // Critical fix: ONLY show modal in admin view and ensure it exists
+        if (this.currentView !== 'admin') return;
+        
+        console.log('Showing school link modal for:', registrationLink);
+        
         const modal = document.getElementById('schoolLinkModal');
         const linkInput = document.getElementById('generatedLink');
+        
+        if (!modal || !linkInput) {
+            console.error('Modal elements not found');
+            return;
+        }
         
         const fullLink = `${window.location.origin}${window.location.pathname}?school=${registrationLink}`;
         linkInput.value = fullLink;
         
+        modal.style.display = 'flex';
         modal.classList.remove('hidden');
+        
+        console.log('Modal shown with link:', fullLink);
     }
 
     closeSchoolLinkModal() {
-        document.getElementById('schoolLinkModal').classList.add('hidden');
+        console.log('Closing school link modal');
+        const modal = document.getElementById('schoolLinkModal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.style.display = 'none';
+        }
     }
 
     copyLink() {
+        console.log('Copying link...');
         const linkInput = document.getElementById('generatedLink');
+        if (!linkInput) return;
+        
         linkInput.select();
         linkInput.setSelectionRange(0, 99999);
         
         try {
             navigator.clipboard.writeText(linkInput.value).then(() => {
+                console.log('Link copied successfully');
                 const copyBtn = document.getElementById('copyLinkBtn');
-                const originalText = copyBtn.textContent;
-                copyBtn.textContent = 'Copied!';
-                copyBtn.style.background = 'var(--color-success)';
-                
-                setTimeout(() => {
-                    copyBtn.textContent = originalText;
-                    copyBtn.style.background = '';
-                }, 2000);
+                if (copyBtn) {
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = 'Copied!';
+                    copyBtn.style.background = 'var(--color-success)';
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                        copyBtn.style.background = '';
+                    }, 2000);
+                }
+            }).catch(() => {
+                this.fallbackCopyToClipboard(linkInput.value);
             });
         } catch (err) {
-            // Fallback for older browsers
-            document.execCommand('copy');
-            alert('Link copied to clipboard!');
+            this.fallbackCopyToClipboard(linkInput.value);
         }
     }
 
+    fallbackCopyToClipboard(text) {
+        console.log('Using fallback copy method');
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            this.showToast('Link copied to clipboard!');
+        } catch (err) {
+            console.error('Failed to copy:', err);
+            alert('Failed to copy link. Please copy it manually.');
+        }
+        
+        document.body.removeChild(textArea);
+    }
+
     renderSchoolsList() {
+        console.log('Rendering schools list');
         const schoolsList = document.getElementById('schoolsList');
+        if (!schoolsList) {
+            console.error('Schools list element not found');
+            return;
+        }
         
         if (this.schools.length === 0) {
             schoolsList.innerHTML = '<div class="empty-state"><p>No schools added yet. Add a school to get started.</p></div>';
@@ -293,7 +445,7 @@ class StudentDataSystem {
                     <button class="btn btn--sm btn--primary" data-action="downloadData" data-school-id="${school.id}">
                         Download Data
                     </button>
-                    <button class="btn btn--sm btn--outline" style="color: var(--color-error); border-color: var(--color-error);" data-action="deleteSchool" data-school-id="${school.id}">
+                    <button class="btn btn--sm btn--outline btn--delete" data-action="deleteSchool" data-school-id="${school.id}">
                         Delete
                     </button>
                 </div>
@@ -302,17 +454,22 @@ class StudentDataSystem {
 
         // Add event listeners to the dynamically created buttons
         this.attachSchoolActionListeners();
+        console.log('Schools list rendered with', this.schools.length, 'schools');
     }
 
     attachSchoolActionListeners() {
         const schoolsList = document.getElementById('schoolsList');
-        if (!schoolsList) return;
+        if (!schoolsList || this.currentView !== 'admin') return;
+
+        console.log('Attaching school action listeners');
 
         schoolsList.addEventListener('click', (e) => {
+            e.preventDefault();
             const button = e.target.closest('button[data-action]');
             if (!button) return;
 
             const action = button.dataset.action;
+            console.log('School action clicked:', action);
             
             switch(action) {
                 case 'copyLink':
@@ -329,37 +486,48 @@ class StudentDataSystem {
     }
 
     copySchoolLink(registrationLink) {
+        console.log('Copying school link for:', registrationLink);
         const fullLink = `${window.location.origin}${window.location.pathname}?school=${registrationLink}`;
         
         try {
             navigator.clipboard.writeText(fullLink).then(() => {
+                console.log('School link copied successfully');
                 this.showToast('School link copied to clipboard!');
+            }).catch(() => {
+                this.fallbackCopyToClipboard(fullLink);
             });
         } catch (err) {
-            // Fallback
-            const textArea = document.createElement('textarea');
-            textArea.value = fullLink;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            this.showToast('School link copied to clipboard!');
+            this.fallbackCopyToClipboard(fullLink);
         }
     }
 
     showDeleteModal(schoolId) {
+        // Critical fix: ONLY show delete modal in admin view
+        if (this.currentView !== 'admin') return;
+        
+        console.log('Showing delete modal for school:', schoolId);
         this.deleteSchoolId = schoolId;
-        const school = this.schools.find(s => s.id === schoolId);
-        document.getElementById('deleteModal').classList.remove('hidden');
+        const modal = document.getElementById('deleteModal');
+        if (modal) {
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
+        }
     }
 
     closeDeleteModal() {
+        console.log('Closing delete modal');
         this.deleteSchoolId = null;
-        document.getElementById('deleteModal').classList.add('hidden');
+        const modal = document.getElementById('deleteModal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.style.display = 'none';
+        }
     }
 
     confirmDelete() {
-        if (!this.deleteSchoolId) return;
+        if (!this.deleteSchoolId || this.currentView !== 'admin') return;
+
+        console.log('Confirming delete for school:', this.deleteSchoolId);
 
         // Remove school and its students
         this.schools = this.schools.filter(s => s.id !== this.deleteSchoolId);
@@ -374,6 +542,8 @@ class StudentDataSystem {
     setNextSerialNumber() {
         const schoolStudents = this.students.filter(s => s.schoolId === this.currentSchoolId);
         const nextSerialNumber = String(schoolStudents.length + 1).padStart(2, '0');
+        
+        console.log('Setting next serial number:', nextSerialNumber);
         
         const serialInput = document.getElementById('serialNo');
         if (serialInput) {
@@ -461,6 +631,7 @@ class StudentDataSystem {
 
     handleStudentSubmit(e) {
         e.preventDefault();
+        console.log('Handling student submit...');
         
         if (!this.validateForm()) return;
 
@@ -488,6 +659,7 @@ class StudentDataSystem {
             };
 
             this.students.push(studentData);
+            console.log('Student added:', studentData);
             
             // Update school student count
             const school = this.schools.find(s => s.id === this.currentSchoolId);
@@ -566,14 +738,18 @@ class StudentDataSystem {
     }
 
     updateStats() {
+        // Fixed: Show only Total Schools and Total Students (removed Total Required)
         const totalSchoolsEl = document.getElementById('totalSchools');
         const totalStudentsEl = document.getElementById('totalStudents');
         
         if (totalSchoolsEl) totalSchoolsEl.textContent = this.schools.length;
         if (totalStudentsEl) totalStudentsEl.textContent = this.students.length;
+        
+        console.log('Stats updated - Schools:', this.schools.length, 'Students:', this.students.length);
     }
 
     downloadData() {
+        console.log('Downloading all data...');
         if (this.students.length === 0) {
             alert('No student data available to download.');
             return;
@@ -584,6 +760,7 @@ class StudentDataSystem {
     }
 
     downloadSchoolData(schoolId) {
+        console.log('Downloading school data for:', schoolId);
         const schoolStudents = this.students.filter(s => s.schoolId === schoolId);
         const school = this.schools.find(s => s.id === schoolId);
         
@@ -630,6 +807,7 @@ class StudentDataSystem {
     }
 
     downloadCSV(csvData, filename) {
+        console.log('Downloading CSV:', filename);
         const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         
@@ -641,24 +819,15 @@ class StudentDataSystem {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            
+            this.showToast(`Downloaded ${filename}`);
         }
     }
 
     showToast(message) {
-        // Simple toast notification
+        console.log('Showing toast:', message);
         const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--color-success);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            z-index: 10000;
-            box-shadow: var(--shadow-md);
-            animation: slideInRight 0.3s ease-out;
-        `;
+        toast.className = 'toast';
         toast.textContent = message;
         
         document.body.appendChild(toast);
@@ -666,15 +835,19 @@ class StudentDataSystem {
         setTimeout(() => {
             toast.style.animation = 'slideOutRight 0.3s ease-in forwards';
             setTimeout(() => {
-                document.body.removeChild(toast);
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
+                }
             }, 300);
         }, 3000);
     }
 
     closeAllModals() {
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(modal => {
+        // Critical fix: Force hide all modals properly
+        const allModals = document.querySelectorAll('.modal');
+        allModals.forEach(modal => {
             modal.classList.add('hidden');
+            modal.style.display = 'none';
         });
         this.deleteSchoolId = null;
     }
@@ -686,25 +859,12 @@ class StudentDataSystem {
     }
 }
 
-// Add CSS animations for toast
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        0% { transform: translateX(100%); opacity: 0; }
-        100% { transform: translateX(0); opacity: 1; }
-    }
-    
-    @keyframes slideOutRight {
-        0% { transform: translateX(0); opacity: 1; }
-        100% { transform: translateX(100%); opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
-
 // Initialize the application
 let app;
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Content Loaded - Initializing app...');
     app = new StudentDataSystem();
-    // Make app globally available immediately
+    app.init();
+    // Make app globally available
     window.app = app;
 });

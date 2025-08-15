@@ -71,9 +71,46 @@
                 </div>
             </div>
         </main>
+
+        <!-- Admin Modals -->
+        <!-- Modal for School Link -->
+        <div id="schoolLinkModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>School Registration Link Generated</h3>
+                    <button id="closeModal" class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Share this link with the school for student data collection:</p>
+                    <div class="link-container">
+                        <input type="text" id="generatedLink" class="form-control" readonly>
+                        <button id="copyLinkBtn" class="btn btn--primary">Copy Link</button>
+                    </div>
+                    <p class="link-note">Note: This link provides access only to the student registration form.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Delete Confirmation -->
+        <div id="deleteModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Confirm Delete</h3>
+                    <button id="closeDeleteModal" class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this school and all its student data?</p>
+                    <p><strong>This action cannot be undone.</strong></p>
+                    <div class="modal-actions">
+                        <button id="confirmDeleteBtn" class="btn btn--primary">Delete School</button>
+                        <button id="cancelDeleteBtn" class="btn btn--outline">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- School Form View -->
+    <!-- School Form View - Clean interface with NO admin functions -->
     <div id="schoolForm" class="form-container hidden">
         <header class="form-header">
             <div class="container">
@@ -203,42 +240,6 @@
                 </div>
             </div>
         </main>
-    </div>
-
-    <!-- Modal for School Link -->
-    <div id="schoolLinkModal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>School Registration Link Generated</h3>
-                <button id="closeModal" class="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Share this link with the school for student data collection:</p>
-                <div class="link-container">
-                    <input type="text" id="generatedLink" class="form-control" readonly>
-                    <button id="copyLinkBtn" class="btn btn--primary">Copy Link</button>
-                </div>
-                <p class="link-note">Note: This link provides access only to the student registration form.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Delete Confirmation -->
-    <div id="deleteModal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Confirm Delete</h3>
-                <button id="closeDeleteModal" class="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this school and all its student data?</p>
-                <p><strong>This action cannot be undone.</strong></p>
-                <div class="modal-actions">
-                    <button id="confirmDeleteBtn" class="btn btn--primary">Delete School</button>
-                    <button id="cancelDeleteBtn" class="btn btn--outline">Cancel</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script src="app.js"></script>

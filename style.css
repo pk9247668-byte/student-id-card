@@ -747,7 +747,7 @@ select.form-control {
 }
 
 .dashboard-header, .form-header {
-  background: linear-gradient(135deg, var(--color-bg-1), var(--color-bg-3));
+  background: var(--color-bg-1);
   padding: var(--space-32) 0;
   border-bottom: 1px solid var(--color-border);
 }
@@ -795,7 +795,7 @@ select.form-control {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-bg-1);
+  background: var(--color-bg-3);
   border-radius: var(--radius-base);
 }
 
@@ -941,7 +941,7 @@ select.form-control {
   gap: var(--space-16);
   margin-top: var(--space-12);
   padding: var(--space-16);
-  background: var(--color-bg-1);
+  background: var(--color-bg-4);
   border: 1px solid var(--color-card-border-inner);
   border-radius: var(--radius-base);
 }
@@ -967,7 +967,7 @@ select.form-control {
 .photo-filename-display {
   margin-top: var(--space-8);
   padding: var(--space-8) var(--space-12);
-  background: var(--color-bg-3);
+  background: var(--color-bg-5);
   border-radius: var(--radius-sm);
   font-size: var(--font-size-sm);
 }
@@ -1012,7 +1012,7 @@ select.form-control {
   margin: 0;
 }
 
-/* Modal Styles */
+/* Modal Styles - Only for Admin Dashboard */
 .modal {
   position: fixed;
   top: 0;
@@ -1134,6 +1134,45 @@ select.form-control {
   font-size: var(--font-size-lg);
 }
 
+/* Delete Button Specific Styling */
+.btn--delete {
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+.btn--delete:hover {
+  background: rgba(var(--color-error-rgb), 0.1);
+  border-color: var(--color-error);
+}
+
+/* Toast Notifications */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--color-success);
+  color: var(--color-btn-primary-text);
+  padding: var(--space-12) var(--space-24);
+  border-radius: var(--radius-base);
+  z-index: 10000;
+  box-shadow: var(--shadow-md);
+  animation: slideInRight 0.3s ease-out;
+}
+
+.toast.error {
+  background: var(--color-error);
+}
+
+@keyframes slideInRight {
+  0% { transform: translateX(100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOutRight {
+  0% { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .dashboard-header, .form-header {
@@ -1196,23 +1235,6 @@ select.form-control {
   }
 }
 
-/* Status indicators for school items */
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: var(--space-6);
-}
-
-.status-dot.active {
-  background: var(--color-success);
-}
-
-.status-dot.inactive {
-  background: var(--color-text-secondary);
-}
-
 /* Validation styles */
 .form-control:invalid:not(:focus):not(:placeholder-shown) {
   border-color: var(--color-error);
@@ -1231,4 +1253,21 @@ select.form-control {
 
 [data-color-scheme="dark"] .photo-preview img {
   border-color: var(--color-border);
+}
+
+/* View Separation - Ensure school form has no admin elements */
+#schoolForm .modal,
+#schoolForm .btn--delete {
+  display: none !important;
+}
+
+/* Clean school form interface */
+.form-container .card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-container .container {
+  padding-top: var(--space-32);
+  padding-bottom: var(--space-32);
 }
