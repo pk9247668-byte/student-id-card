@@ -738,653 +738,497 @@ select.form-control {
 }
 
 /* END PERPLEXITY DESIGN SYSTEM */
-/* Custom styles for Student ID Card Management System */
+/* Custom Styles for Student ID Card System */
 
-/* Layout and Views */
-.view {
-    display: none;
+/* Layout Styles */
+.dashboard-container, .form-container {
+  min-height: 100vh;
+  background: var(--color-background);
 }
 
-.view.active {
-    display: block;
+.dashboard-header, .form-header {
+  background: linear-gradient(135deg, var(--color-bg-1), var(--color-bg-3));
+  padding: var(--space-32) 0;
+  border-bottom: 1px solid var(--color-border);
 }
 
-/* Header Styles */
-.header {
-    background: linear-gradient(135deg, var(--color-teal-500) 0%, var(--color-teal-700) 100%);
-    color: var(--color-white);
-    padding: var(--space-32) 0;
-    text-align: center;
+.dashboard-header h1, .form-header h1 {
+  color: var(--color-text);
+  margin-bottom: var(--space-8);
 }
 
-.header__title {
-    font-size: var(--font-size-4xl);
-    font-weight: var(--font-weight-bold);
-    margin-bottom: var(--space-8);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.dashboard-subtitle, .form-subtitle {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+  margin: 0;
 }
 
-.header__subtitle {
-    font-size: var(--font-size-lg);
-    opacity: 0.9;
-    margin: 0;
-}
-
-/* Main Content */
-.main {
-    padding: var(--space-32) 0;
-    min-height: calc(100vh - 200px);
-}
-
-/* Statistics Section */
-.stats-section {
-    margin-bottom: var(--space-32);
-}
-
+/* Statistics Grid */
 .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--space-24);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-24);
+  margin-bottom: var(--space-32);
 }
 
 .stat-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-card-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-24);
-    display: flex;
-    align-items: center;
-    gap: var(--space-16);
-    box-shadow: var(--shadow-sm);
-    transition: all var(--duration-normal) var(--ease-standard);
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-fast) var(--ease-standard);
 }
 
 .stat-card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
-.stat-card__icon {
-    font-size: 2.5rem;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-bg-1);
-    border-radius: var(--radius-full);
+.stat-icon {
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-1);
+  border-radius: var(--radius-base);
 }
 
-.stat-card__number {
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary);
-    margin: 0;
+.stat-content h3 {
+  font-size: var(--font-size-3xl);
+  color: var(--color-primary);
+  margin: 0 0 var(--space-4) 0;
 }
 
-.stat-card__label {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    margin: 0;
+.stat-content p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin: 0;
 }
 
-/* Add School Section */
-.add-school-section {
-    margin-bottom: var(--space-32);
-}
-
-.add-school-form {
-    display: flex;
-    gap: var(--space-16);
-    align-items: flex-end;
-}
-
-.add-school-form .form-group {
-    flex: 1;
-    margin-bottom: 0;
-}
-
-/* Schools Section */
-.schools-section {
-    margin-bottom: var(--space-32);
-}
-
-.schools-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-24);
-}
-
-.schools-header h2 {
-    margin: 0;
-}
-
-.schools-grid {
-    display: grid;
-    gap: var(--space-20);
-}
-
-.school-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-card-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-24);
-    box-shadow: var(--shadow-sm);
-    transition: all var(--duration-normal) var(--ease-standard);
-}
-
-.school-card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-1px);
-}
-
-.school-card__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: var(--space-16);
-}
-
-.school-card__title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text);
-    margin: 0;
-}
-
-.school-card__stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-16);
-    margin-bottom: var(--space-16);
-}
-
-.school-stat {
-    text-align: center;
-}
-
-.school-stat__number {
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary);
-    margin: 0;
-}
-
-.school-stat__label {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    margin: 0;
-}
-
-.progress-container {
-    margin-bottom: var(--space-16);
-}
-
-.progress-label {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: var(--space-4);
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-}
-
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background-color: var(--color-secondary);
-    border-radius: var(--radius-full);
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--color-teal-500), var(--color-teal-400));
-    transition: width var(--duration-normal) var(--ease-standard);
-    border-radius: var(--radius-full);
-}
-
-.school-card__link {
-    background: var(--color-bg-2);
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-base);
-    padding: var(--space-8);
-    margin-bottom: var(--space-16);
-    font-family: var(--font-family-mono);
-    font-size: var(--font-size-sm);
-    word-break: break-all;
-}
-
-.school-card__actions {
-    display: flex;
-    gap: var(--space-8);
-    flex-wrap: wrap;
-}
-
-.school-card__actions .btn {
-    flex: 1;
-    min-width: 120px;
-}
-
-/* Form Header */
-.form-header {
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    padding: var(--space-24) 0;
-    margin-bottom: var(--space-32);
-}
-
-.form-header .container {
-    display: flex;
-    align-items: center;
-    gap: var(--space-16);
-}
-
-.form-header h1 {
-    margin: 0;
-    flex: 1;
-}
-
-.form-subtitle {
-    color: var(--color-text-secondary);
-    margin: 0;
-}
-
-/* Form Container */
-.form-container {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-/* Form Grid */
+/* Form Styles */
 .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-16);
-    margin-bottom: var(--space-32);
+  display: grid;
+  gap: var(--space-16);
 }
 
-.form-group--full {
-    grid-column: 1 / -1;
+.student-form {
+  display: grid;
+  gap: var(--space-20);
 }
 
-/* Photo Upload */
-.photo-upload {
-    position: relative;
-    border: 2px dashed var(--color-border);
-    border-radius: var(--radius-lg);
-    background: var(--color-bg-3);
-    transition: all var(--duration-normal) var(--ease-standard);
+.form-row {
+  display: grid;
+  gap: var(--space-16);
+  grid-template-columns: 1fr;
 }
 
-.photo-upload:hover {
-    border-color: var(--color-primary);
-    background: var(--color-bg-1);
+.form-row:has(.form-group:not(.full-width)):has(.form-group:nth-child(2)) {
+  grid-template-columns: 1fr 1fr;
 }
 
-.photo-upload__area {
-    padding: var(--space-32);
-    text-align: center;
-    cursor: pointer;
+.form-row:has(.form-group:nth-child(3)) {
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
-.photo-upload__icon {
-    font-size: 3rem;
-    margin-bottom: var(--space-12);
-    opacity: 0.6;
+.form-group.full-width {
+  grid-column: 1 / -1;
 }
 
-.photo-upload__text {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text);
-    margin-bottom: var(--space-4);
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr !important;
+  }
 }
 
-.photo-upload__hint {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    margin: 0;
+.form-actions {
+  display: flex;
+  gap: var(--space-16);
+  justify-content: flex-start;
+  margin-top: var(--space-24);
+}
+
+@media (max-width: 640px) {
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .form-actions .btn {
+    width: 100%;
+  }
+}
+
+/* Header Actions */
+.card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+/* Schools List */
+.schools-list {
+  display: grid;
+  gap: var(--space-16);
+}
+
+.school-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-16);
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-card-border-inner);
+  border-radius: var(--radius-base);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.school-item:hover {
+  background: var(--color-bg-3);
+}
+
+.school-info h4 {
+  margin: 0 0 var(--space-4) 0;
+  color: var(--color-text);
+}
+
+.school-meta {
+  display: flex;
+  gap: var(--space-16);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.school-actions {
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .school-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-12);
+  }
+  
+  .school-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Photo Upload Styles */
+.photo-upload-container {
+  position: relative;
 }
 
 .photo-preview {
-    position: relative;
-    padding: var(--space-16);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-16);
+  margin-top: var(--space-12);
+  padding: var(--space-16);
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-card-border-inner);
+  border-radius: var(--radius-base);
 }
 
 .photo-preview img {
-    width: 100%;
-    max-width: 200px;
-    height: auto;
-    border-radius: var(--radius-base);
-    box-shadow: var(--shadow-md);
-    display: block;
-    margin: 0 auto;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--radius-base);
+  border: 2px solid var(--color-border);
 }
 
-.photo-remove {
-    position: absolute;
-    top: var(--space-8);
-    right: var(--space-8);
-    width: 32px;
-    height: 32px;
-    background: var(--color-error);
-    color: var(--color-white);
-    border: none;
-    border-radius: var(--radius-full);
-    font-size: var(--font-size-lg);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow-sm);
-    transition: all var(--duration-fast) var(--ease-standard);
+.photo-info {
+  flex: 1;
 }
 
-.photo-remove:hover {
-    background: var(--color-red-400);
-    transform: scale(1.1);
+.photo-filename {
+  margin: 0 0 var(--space-8) 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.photo-filename-display {
+  margin-top: var(--space-8);
+  padding: var(--space-8) var(--space-12);
+  background: var(--color-bg-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+}
+
+.photo-filename-display p {
+  margin: 0;
+  color: var(--color-text);
 }
 
 /* Success Message */
 .success-message {
-    text-align: center;
-    padding: var(--space-32);
-    background: var(--color-bg-3);
-    border-radius: var(--radius-lg);
-    border: 1px solid rgba(var(--color-success-rgb), 0.2);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-32);
+  z-index: 1000;
+  max-width: 400px;
+  width: 90%;
+}
+
+.success-content {
+  text-align: center;
 }
 
 .success-icon {
-    font-size: 4rem;
-    margin-bottom: var(--space-16);
+  font-size: 3rem;
+  margin-bottom: var(--space-16);
 }
 
 .success-message h3 {
-    color: var(--color-success);
-    margin-bottom: var(--space-8);
+  color: var(--color-success);
+  margin-bottom: var(--space-12);
 }
 
 .success-message p {
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-24);
+  color: var(--color-text-secondary);
+  margin: 0;
 }
 
-/* Loading Overlay */
-.loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.loading-overlay.hidden {
-    display: none !important;
-}
-
-.loading-overlay:not(.hidden) {
-    display: flex;
-}
-
-.loading-spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top: 4px solid var(--color-white);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: var(--space-16);
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loading-overlay p {
-    color: var(--color-white);
-    font-size: var(--font-size-lg);
-    margin: 0;
-}
-
-/* Modal - Critical fix for visibility issues */
+/* Modal Styles */
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9998;
-    opacity: 0;
-    visibility: hidden;
-    transition: all var(--duration-fast) var(--ease-standard);
-}
-
-/* Critical: Ensure hidden class takes precedence */
-.modal.hidden {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-}
-
-/* Only show modal when explicitly not hidden */
-.modal:not(.hidden) {
-    display: flex;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: all;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  padding: var(--space-16);
 }
 
 .modal-content {
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    max-width: 500px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    transform: scale(0.95);
-    transition: transform var(--duration-fast) var(--ease-standard);
-}
-
-.modal:not(.hidden) .modal-content {
-    transform: scale(1);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
 }
 
 .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-20) var(--space-24);
-    border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-20);
+  border-bottom: 1px solid var(--color-card-border-inner);
 }
 
 .modal-header h3 {
-    margin: 0;
-    color: var(--color-text);
+  margin: 0;
+  color: var(--color-text);
 }
 
 .modal-close {
-    background: none;
-    border: none;
-    font-size: var(--font-size-2xl);
-    cursor: pointer;
-    color: var(--color-text-secondary);
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-sm);
-    transition: all var(--duration-fast) var(--ease-standard);
+  background: none;
+  border: none;
+  font-size: var(--font-size-2xl);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast) var(--ease-standard);
 }
 
 .modal-close:hover {
-    background: var(--color-secondary);
-    color: var(--color-text);
+  color: var(--color-text);
+  background: var(--color-secondary);
 }
 
 .modal-body {
-    padding: var(--space-24);
+  padding: var(--space-20);
 }
 
-.modal-footer {
-    display: flex;
-    gap: var(--space-12);
-    justify-content: flex-end;
-    padding: var(--space-20) var(--space-24);
-    border-top: 1px solid var(--color-border);
+.modal-actions {
+  display: flex;
+  gap: var(--space-12);
+  justify-content: flex-end;
+  margin-top: var(--space-20);
+}
+
+/* Link Container */
+.link-container {
+  display: flex;
+  gap: var(--space-8);
+  margin: var(--space-16) 0;
+}
+
+.link-container .form-control {
+  flex: 1;
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+}
+
+.link-note {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  margin: var(--space-12) 0 0 0;
+}
+
+/* Loader */
+.loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--color-border);
+  border-top: 2px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Button Loading State */
+.btn:has(.loader:not(.hidden)) {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.btn:has(.loader:not(.hidden)) span:not(.loader) {
+  opacity: 0.7;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: var(--space-32);
+  color: var(--color-text-secondary);
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: var(--font-size-lg);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .header__title {
-        font-size: var(--font-size-3xl);
-    }
-    
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .add-school-form {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .add-school-form .form-group {
-        margin-bottom: var(--space-16);
-    }
-    
-    .schools-header {
-        flex-direction: column;
-        align-items: stretch;
-        gap: var(--space-16);
-    }
-    
-    .school-card__actions {
-        flex-direction: column;
-    }
-    
-    .school-card__actions .btn {
-        min-width: auto;
-    }
-    
-    .form-header .container {
-        flex-direction: column;
-        align-items: stretch;
-        text-align: center;
-    }
-    
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .school-card__stats {
-        grid-template-columns: 1fr;
-        gap: var(--space-12);
-    }
+  .dashboard-header, .form-header {
+    padding: var(--space-20) 0;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-card {
+    padding: var(--space-16);
+  }
+  
+  .link-container {
+    flex-direction: column;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
 }
 
-@media (max-width: 480px) {
-    .container {
-        padding-left: var(--space-12);
-        padding-right: var(--space-12);
-    }
-    
-    .main {
-        padding: var(--space-24) 0;
-    }
-    
-    .stat-card {
-        padding: var(--space-16);
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .stat-card__icon {
-        width: 50px;
-        height: 50px;
-        font-size: 2rem;
-    }
-    
-    .school-card {
-        padding: var(--space-16);
-    }
-    
-    .modal-content {
-        width: 95%;
-        margin: var(--space-16);
-    }
+/* Print Styles */
+@media print {
+  .dashboard-header, .form-header {
+    background: none !important;
+  }
+  
+  .btn, .modal {
+    display: none !important;
+  }
+  
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
 }
 
-/* Animation for form progress */
-.form-grid .form-group {
+/* Focus States */
+.form-control:focus,
+.btn:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+}
+
+/* Animation for success message */
+.success-message:not(.hidden) {
+  animation: slideInFade 0.3s ease-out;
+}
+
+@keyframes slideInFade {
+  0% {
     opacity: 0;
-    transform: translateY(20px);
-    animation: slideUp var(--duration-normal) var(--ease-standard) forwards;
-}
-
-.form-grid .form-group:nth-child(1) { animation-delay: 0.1s; }
-.form-grid .form-group:nth-child(2) { animation-delay: 0.15s; }
-.form-grid .form-group:nth-child(3) { animation-delay: 0.2s; }
-.form-grid .form-group:nth-child(4) { animation-delay: 0.25s; }
-.form-grid .form-group:nth-child(5) { animation-delay: 0.3s; }
-.form-grid .form-group:nth-child(6) { animation-delay: 0.35s; }
-.form-grid .form-group:nth-child(7) { animation-delay: 0.4s; }
-.form-grid .form-group:nth-child(8) { animation-delay: 0.45s; }
-.form-grid .form-group:nth-child(9) { animation-delay: 0.5s; }
-.form-grid .form-group:nth-child(10) { animation-delay: 0.55s; }
-.form-grid .form-group:nth-child(11) { animation-delay: 0.6s; }
-
-@keyframes slideUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Button loading state */
-.btn--loading {
-    position: relative;
-    color: transparent;
-}
-
-.btn--loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    border: 2px solid currentColor;
-    border-top: 2px solid transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+    transform: translate(-50%, -60%);
+  }
+  100% {
+    opacity: 1;
     transform: translate(-50%, -50%);
-    color: var(--color-btn-primary-text);
+  }
 }
 
-/* Critical: Force hide elements */
-.hidden {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
+/* Status indicators for school items */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: var(--space-6);
 }
 
-/* Success message specific styles */
-.success-message.hidden {
-    display: none !important;
+.status-dot.active {
+  background: var(--color-success);
+}
+
+.status-dot.inactive {
+  background: var(--color-text-secondary);
+}
+
+/* Validation styles */
+.form-control:invalid:not(:focus):not(:placeholder-shown) {
+  border-color: var(--color-error);
+}
+
+.form-control:valid:not(:focus):not(:placeholder-shown) {
+  border-color: var(--color-success);
+}
+
+/* Dark mode specific adjustments */
+@media (prefers-color-scheme: dark) {
+  .photo-preview img {
+    border-color: var(--color-border);
+  }
+}
+
+[data-color-scheme="dark"] .photo-preview img {
+  border-color: var(--color-border);
 }
